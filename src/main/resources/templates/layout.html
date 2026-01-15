@@ -5,13 +5,30 @@
 
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
-<body class="d-flex flex-column min-vh-100">
+<body>
 
-<header th:replace="~{fragments/header :: header}"></header>
+<div class="app">
 
-<main class="container my-4" th:replace="${content}"></main>
+    <!-- SIDEBAR -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
 
-<footer th:replace="~{fragments/footer :: footer}"></footer>
+    <!-- CONTEÚDO -->
+    <div class="content">
+
+        <!-- HEADER (se quiser manter) -->
+        <header th:replace="fragments/header :: header"></header>
+
+        <!-- CONTEÚDO DAS TELAS -->
+        <main class="container my-4">
+            <th:block th:replace="${conteudo}"></th:block>
+        </main>
+
+        <!-- FOOTER -->
+        <footer th:replace="fragments/footer :: footer"></footer>
+
+    </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 

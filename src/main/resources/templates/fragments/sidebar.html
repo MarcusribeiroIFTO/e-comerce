@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
+        <span class="logo">PetSul</span>
+    </div>
+
+    <ul class="nav flex-column">
+
+        <li class="nav-item">
+            <a th:href="@{/}" class="nav-link active">
+                <span class="icon">🏠</span>
+                <span class="text">Home</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/vendas}" class="nav-link">
+                <span class="icon">🛒</span>
+                <span class="text">Vendas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/produtos}" class="nav-link">
+                <span class="icon">📦</span>
+                <span class="text">Produtos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/pf}" class="nav-link">
+                <span class="icon">👥</span>
+                <span class="text">Pessoas Fisicas</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/pj}" class="nav-link">
+                <span class="icon">👥</span>
+                <span class="text">Pessoas Juridicas</span>
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>
