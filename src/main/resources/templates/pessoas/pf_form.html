@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::section})">
+    <section>
+
+        <h1 class="mb-3">Cadastro Pessoa Física</h1>
+
+        <form th:action="@{/pf/salvar}" th:object="${pessoa}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" th:field="*{nome}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">CPF</label>
+                <input type="text" class="form-control" th:field="*{cpf}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" th:field="*{email}">
+            </div>
+
+            <button class="btn btn-success">Salvar</button>
+            <a th:href="@{/pf}" class="btn btn-secondary">Voltar</a>
+
+        </form>
+    </section>
+</html>

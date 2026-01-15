@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::section})">
+    <section>
+            <h1 class="mb-3">Pessoas Jurídicas</h1>
+
+            <a class="btn btn-primary mb-3" th:href="@{/pj/novo}">
+                Nova Pessoa Jurídica
+            </a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th><th>Email</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+            <tbody>
+            <tr th:each="p : ${pessoas}">
+                <td th:text="${p.id}">1</td>
+                <td th:text="${p.razaoSocial}">Razao</td>
+                <td th:text="${p.cnpj}">CNPJ</td>
+                <td th:text="${p.email}">email</td>
+                <td th:text="${p.telefone}">tel</td>
+                <td>
+                    <a th:href="@{|/pj/editar/${p.id}|}">Editar</a> |
+                    <a th:href="@{|/pj/deletar/${p.id}|}" onclick="return confirm('Deletar?')">Deletar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+</section>
+</html>

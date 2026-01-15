@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::section})">
+<section>
+
+    <h1 class="mb-3">Cadastro de Vendas</h1>
+        <form id="formVenda" th:action="@{/vendas/salvar}" method="post" th:object="${venda}">
+            <input type="hidden" id="acao" name="acao" value="finalizar">
+            <input type="hidden" th:field="*{numeroVenda}">
+            <input type="hidden" th:field="*{id}" />
+            <div class="mb-3">
+                <label>Data</label>
+                <input type="date" th:field="*{data}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Cliente</label>
+                <select name="clienteId" class="form-control">
+                    <option value="">-- selecione --</option>
+                    <option th:each="p : ${pessoas}"
+                            th:value="${p.id}"
+                            th:text="${p.nomeExibicao}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Produto</label>
+                <select name="produtoId" class="form-control">
+                    <option value="">-- selecione --</option>
+                    <option th:each="prod : ${produtos}"
+                            th:value="${prod.id}"
+                            th:text="${prod.descricao}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Quantidade</label>
+                <input type="number" name="quantidade" min="1" class="form-control">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="confirmarAdicionar()">Adicionar item</button>
+            <button type="submit">Salvar</button>
+
+        </form>
+        <a th:href="@{/vendas}">Voltar</a>
+    <script>
+        function confirmarAdicionar() {
+            if (confirm("Deseja adicionar mais itens à venda?")) {
+                document.getElementById("acao").value = "continuar";
+            } else {
+                document.getElementById("acao").value = "finalizar";
+            }
+            document.getElementById("formVenda").submit();
+        }
+    </script>
+</section>
+</html>

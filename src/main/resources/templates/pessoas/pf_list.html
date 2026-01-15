@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::section})">
+
+<section>
+
+    <h1 class="mb-3">Pessoas Físicas</h1>
+
+    <a class="btn btn-primary mb-3" th:href="@{/pf/novo}">
+        Nova Pessoa Física
+    </a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pessoas}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.nome}"></td>
+            <td th:text="${p.cpf}"></td>
+            <td th:text="${p.email}"></td>
+            <td>
+                <a th:href="@{|/pf/editar/${p.id}|}" class="btn btn-sm btn-warning">Editar</a>
+                <a th:href="@{|/pf/deletar/${p.id}|}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Deseja excluir?')">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</html>

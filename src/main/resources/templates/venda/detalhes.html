@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::section})">
+
+<section>
+    <h1 class="mb-3">Detalhes da Venda</h1>
+
+    <p><strong>ID:</strong> <span th:text="${venda.id}"></span></p>
+    <p><strong>Data:</strong> <span th:text="${venda.data}"></span></p>
+
+    <p>
+        <strong>Cliente:</strong>
+        <span th:text="${venda.cliente != null ? venda.cliente.nomeExibicao : 'Não informado'}"></span>
+    </p>
+
+    <h4 class="mt-4">Itens da Venda</h4>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${venda.itens}">
+            <td th:text="${item.produto.descricao}"></td>
+            <td th:text="${item.quantidade}"></td>
+            <td th:text="${item.valorUnitario}"></td>
+            <td th:text="${item.subtotal}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4 class="text-end">
+        Total: R$ <span th:text="${venda.valorTotal}"></span>
+    </h4>
+
+    <a th:href="@{/vendas}" class="btn btn-secondary mt-3">Voltar</a>
+</section>
+
+</html>
