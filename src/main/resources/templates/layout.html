@@ -9,21 +9,20 @@
 
 <div class="app">
 
-    <!-- SIDEBAR -->
+
     <div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <!-- CONTEÚDO -->
+
     <div class="content">
 
-        <!-- HEADER (se quiser manter) -->
         <header th:replace="fragments/header :: header"></header>
 
-        <!-- CONTEÚDO DAS TELAS -->
+
         <main class="container my-4">
             <th:block th:replace="${conteudo}"></th:block>
         </main>
 
-        <!-- FOOTER -->
+
         <footer th:replace="fragments/footer :: footer"></footer>
 
     </div>

@@ -11,7 +11,7 @@
     overflow: hidden;
 }
 
-/* EXPANDE AO PASSAR O MOUSE */
+
 .sidebar:hover {
     width: 260px;
 }
