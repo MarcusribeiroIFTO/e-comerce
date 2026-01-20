@@ -1,6 +1,8 @@
 package pweb2.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,16 +12,18 @@ import java.util.List;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "A descrição é obrigatoria")
     private String descricao;
+    @NotNull(message = "O valor deve ser preenchido")
     private BigDecimal valor;
 
     @Temporal(TemporalType.DATE)
 
     @OneToMany(mappedBy = "produto")
-    private List<ItemVenda> itensVenda;
+    private List<ItemVenda> itens;
 
     public Long getId() {
         return id;
@@ -45,11 +49,24 @@ public class Produto {
         this.valor = valor;
     }
 
-    public List<ItemVenda> getItensVenda() {
-        return itensVenda;
+    public List<ItemVenda> getItens() {
+        return itens;
     }
 
-    public void setItensVenda(List<ItemVenda> itensVenda) {
-        this.itensVenda = itensVenda;
+    public void setItens(List<ItemVenda> itens) {
+        this.itens = itens;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return java.util.Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id);
     }
 }

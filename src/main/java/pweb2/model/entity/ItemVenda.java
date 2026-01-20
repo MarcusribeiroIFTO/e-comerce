@@ -9,27 +9,25 @@ import java.math.BigDecimal;
 public class ItemVenda {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private int quantidade;
-    private BigDecimal valorUnitario;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "venda_id")
     private Venda venda;
 
     public ItemVenda() {
     }
 
-    public ItemVenda(Long id, int quantidade, BigDecimal valorUnitario, Produto produto, Venda venda) {
+    public ItemVenda(Long id, int quantidade, Produto produto, Venda venda) {
         this.id = id;
         this.quantidade = quantidade;
-        this.valorUnitario = valorUnitario;
         this.produto = produto;
         this.venda = venda;
     }
@@ -50,14 +48,6 @@ public class ItemVenda {
         this.quantidade = quantidade;
     }
 
-    public BigDecimal getValorUnitario() {
-        return valorUnitario;
-    }
-
-    public void setValorUnitario(BigDecimal valorUnitario) {
-        this.valorUnitario = valorUnitario;
-    }
-
     public Produto getProduto() {
         return produto;
     }
@@ -73,10 +63,10 @@ public class ItemVenda {
     public void setVenda(Venda venda) {
         this.venda = venda;
     }
-    public BigDecimal getSubtotal() {
-        return valorUnitario.multiply(BigDecimal.valueOf(quantidade));
-    }
 
-
-
+    public BigDecimal total() {
+        if (produto == null || produto.getValor() == null || venda == null)
+            return BigDecimal.ZERO;
+            return produto.getValor().multiply(BigDecimal.valueOf(quantidade));
+        }
 }
