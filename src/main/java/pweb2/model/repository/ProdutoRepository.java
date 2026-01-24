@@ -2,11 +2,15 @@ package pweb2.model.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pweb2.model.entity.Produto;
 
 import java.util.List;
+
+import static org.apache.el.parser.ELParserConstants.CONCAT;
+import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
 
 @Repository
 @Transactional
@@ -31,10 +35,51 @@ public class ProdutoRepository {
         return em.createQuery("from Produto", Produto.class).getResultList();
     }
 
-    public void deletar(Long id) {
+    public void excluir(Long id) {
         Produto produto = findById(id);
         if (produto != null) {
             em.remove(produto);
         }
+    }
+
+    public List<Produto> findByDescricaoContainingIgnoreCase(String descricao, Long departamentoid,int page, int size){
+                                                             StringBuilder jpql = new StringBuilder("SELECT produto FROM Produto produto where 1= 1");
+        if (descricao != null && !descricao.isEmpty()){
+            jpql.append(" and LOWER(produto.descricao) like LOWER (CONCAT('%', :descricao, '%'))");
+        }
+        if (departamentoid != null) {
+            jpql.append(" and produto.departamento.id = :departamentoid");
+        }
+        Query query = em.createQuery(jpql.toString(), Produto.class);
+        if (descricao != null && !descricao.isEmpty()){
+            query.setParameter("descricao", descricao);
+        }
+        if (departamentoid != null) {
+            query.setParameter("departamentoid", departamentoid);
+        }
+        return query.setFirstResult((page - 1) * size).setMaxResults(size).getResultList();
+    }
+
+    public Long countByDescricaoContainingIgnoreCase(String descricao, Long departamentoid) {
+        StringBuilder jpql = new StringBuilder("SELECT COUNT(produto) FROM Produto produto where 1= 1");
+        if (descricao != null && !descricao.isEmpty()){
+            jpql.append("AND LOWER(produto.descricao) LIKE LOWER(CONCAT('%', :descricao, '%'))");
+        }
+        if (departamentoid != null) {
+            jpql.append(" and produto.departamento.id = :departamentoid");
+        }
+        Query query = em.createQuery(jpql.toString(), Long.class);
+        if (descricao != null && !descricao.isEmpty()){
+            query.setParameter("descricao", descricao);
+        }
+        if (departamentoid != null) {
+            query.setParameter("departamentoid", departamentoid);
+        }
+        return (Long) query.getSingleResult();
+    }
+    public Long countByDepartamentoID(Long departamentoId) {
+        return em.createQuery("SELECT COUNT (produto) from Produto produto where  produto.departamento.id = :departamentoid", Long.class)
+                .setParameter("departamentoid", departamentoId)
+                .getSingleResult();
     }
 }

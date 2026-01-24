@@ -52,7 +52,7 @@ public class VendaRepository {
     public void editar(Venda venda) {
         em.merge(venda);
     }
-    public List<Venda> findByData(LocalDateTime inicio, LocalDateTime fim) {
+    public List<Venda> buscarPorData(LocalDateTime inicio, LocalDateTime fim) {
 
         String jpql = "SELECT v FROM Venda v WHERE 1=1";
 
@@ -71,13 +71,6 @@ public class VendaRepository {
 
         return query.getResultList();
     }
-
-    /*public List<Venda> buscarPorData(LocalDateTime dataInicial, LocalDateTime dataFinal) {
-        Query query = em.createQuery("from Venda v where v.dataVenda between :dataInicial and :dataFinal order by v.dataVenda desc ");
-        query.setParameter("dataInicial", dataInicial);
-        query.setParameter("dataFinal", dataFinal);
-        return query.getResultList();
-    }*/
 
     public List<Venda> buscarPorClienteEData(List<Pessoa> clientes, LocalDateTime dataInicial, LocalDateTime dataFinal) {
         if (clientes == null || clientes.isEmpty()) return List.of();

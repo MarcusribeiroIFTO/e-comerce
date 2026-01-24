@@ -25,6 +25,10 @@ public class Produto {
     @OneToMany(mappedBy = "produto")
     private List<ItemVenda> itens;
 
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departamento departamento;
+
     public Long getId() {
         return id;
     }
@@ -47,6 +51,14 @@ public class Produto {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
     public List<ItemVenda> getItens() {
