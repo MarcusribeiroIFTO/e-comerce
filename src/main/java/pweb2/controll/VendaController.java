@@ -236,7 +236,7 @@ public class VendaController {
 
         vendaRepository.salvar(venda);
         carrinho.limpar();
-        return "venda/sucesso";
+        return "venda/sucesso";//finalizado a venda
     }
 
 
