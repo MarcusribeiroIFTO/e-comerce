@@ -99,8 +99,10 @@ public abstract class Pessoa {
     public void setTokenCreationDate(LocalDateTime tokenCreationDate) {
         this.tokenCreationDate = tokenCreationDate;
     }
-
-    public void setVendas(List<Venda> vendas) {
+    public java.util.List<Venda> getVendas(){
+        return vendas;
+    }
+    public void setVendas(java.util.List<Venda> vendas) {
         this.vendas = vendas;
     }
     public String getIdentificacao(){

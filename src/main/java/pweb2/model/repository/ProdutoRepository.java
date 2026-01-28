@@ -31,8 +31,11 @@ public class ProdutoRepository {
         return em.find(Produto.class, id);
     }
 
-    public List<Produto> findAll() {
-        return em.createQuery("from Produto", Produto.class).getResultList();
+    public List<Produto> findAll(int page, int size) {
+        return em.createQuery("select p from Produto p", Produto.class)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
     }
 
     public void excluir(Long id) {
@@ -40,6 +43,10 @@ public class ProdutoRepository {
         if (produto != null) {
             em.remove(produto);
         }
+
+    }
+    public Long countAll(){
+        return em.createQuery("select count (p) from Produto p", Long.class).getSingleResult();
     }
 
     public List<Produto> findByDescricaoContainingIgnoreCase(String descricao, Long departamentoid,int page, int size){
