@@ -49,20 +49,20 @@ public class ProdutoRepository {
         return em.createQuery("select count (p) from Produto p", Long.class).getSingleResult();
     }
 
-    public List<Produto> findByDescricaoContainingIgnoreCase(String descricao, Long departamentoid,int page, int size){
+    public List<Produto> findByDescricaoContainingIgnoreCase(String descricao, Long departamentoId,int page, int size){
                                                              StringBuilder jpql = new StringBuilder("SELECT produto FROM Produto produto where 1= 1");
         if (descricao != null && !descricao.isEmpty()){
             jpql.append(" and LOWER(produto.descricao) like LOWER (CONCAT('%', :descricao, '%'))");
         }
-        if (departamentoid != null) {
-            jpql.append(" and produto.departamento.id = :departamentoid");
+        if (departamentoId != null) {
+            jpql.append(" and produto.departamento.id = :departamentoId");
         }
         Query query = em.createQuery(jpql.toString(), Produto.class);
         if (descricao != null && !descricao.isEmpty()){
             query.setParameter("descricao", descricao);
         }
-        if (departamentoid != null) {
-            query.setParameter("departamentoid", departamentoid);
+        if (departamentoId != null) {
+            query.setParameter("departamentoid", departamentoId);
         }
         return query.setFirstResult((page - 1) * size).setMaxResults(size).getResultList();
     }
@@ -88,5 +88,12 @@ public class ProdutoRepository {
         return em.createQuery("SELECT COUNT (produto) from Produto produto where  produto.departamento.id = :departamentoid", Long.class)
                 .setParameter("departamentoid", departamentoId)
                 .getSingleResult();
+    }
+    public List<Produto> findByDepartamentoId(Long departamentoId, int page, int size) {
+        return em.createQuery("SELECT p FROM Produto p WHERE p.departamento.id = :departamentoId", Produto.class)
+                .setParameter("departamentoId", departamentoId)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
     }
 }
