@@ -47,4 +47,15 @@ public class Carrinho implements Serializable {
     public void limpar(){
         itens.clear();
     }
+
+    public void adicionarProduto(Produto produto, int quantidade){
+        for (ItemVenda item : itens){
+            if (item.getProduto().getId().equals(produto.getId())){
+                item.setQuantidade(item.getQuantidade()+ quantidade);
+                return;
+            }
+        }
+        itens.add(new ItemVenda(produto, quantidade));
+    }
+
 }

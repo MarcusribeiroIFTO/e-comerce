@@ -32,6 +32,9 @@ public class ItemVenda {
         this.venda = venda;
     }
 
+    public ItemVenda(Produto produto, int quantidade) {
+    }
+
     public Long getId() {
         return id;
     }
