@@ -49,7 +49,7 @@ public class ProdutoController {
         model.addAttribute("produtos", produtos);
         model.addAttribute("carrinho", carrinhoSession.getCarrinho());
         model.addAttribute("nome", nome);
-        model.addAttribute("departamentos", departamentoRepository.buscarTodos());
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         model.addAttribute("departamentoId", departamentoId);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPaginas", totalPaginas);
@@ -59,7 +59,7 @@ public class ProdutoController {
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("produto", new Produto());
-        model.addAttribute("departamentos", departamentoRepository.buscarTodos());
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         return "produto/form";
     }
     @GetMapping("/editar/{id}")
@@ -69,7 +69,7 @@ public class ProdutoController {
             return "redirect:/produtos";
         }
         model.addAttribute("produto", produto);
-        model.addAttribute("departamentos", departamentoRepository.buscarTodos());
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         return "produto/form";
     }
 

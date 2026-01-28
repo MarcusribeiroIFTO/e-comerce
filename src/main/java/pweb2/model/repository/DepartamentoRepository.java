@@ -17,11 +17,11 @@ public class DepartamentoRepository {
         em.persist(departamento);
     }
 
-    public Departamento buscarPorId(Long id) {
+    public Departamento findById(Long id) {
         return em.find(Departamento.class, id);
     }
 
-    public List<Departamento> buscarTodos() {
+    public List<Departamento> findAll() {
         return em.createQuery(
                 "select d from Departamento d",
                 Departamento.class
@@ -33,10 +33,20 @@ public class DepartamentoRepository {
     }
 
     public void remover(Long id) {
-        Departamento departamento = buscarPorId(id);
+        Departamento departamento = findById(id);
         if (departamento != null) {
             em.remove(departamento);
         }
     }
+    public List<Departamento> findByNomeContainingIgnoreCase(String nome) {
+        return em.createQuery(
+                        "SELECT d FROM Departamento d " +
+                                "WHERE LOWER(d.nome) LIKE LOWER(CONCAT('%', :nome, '%'))",
+                        Departamento.class
+                )
+                .setParameter("nome", nome)
+                .getResultList();
+    }
+
 }
 

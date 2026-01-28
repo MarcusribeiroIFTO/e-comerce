@@ -2,16 +2,14 @@ package pweb2.controll;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pweb2.model.entity.Departamento;
 import pweb2.model.repository.DepartamentoRepository;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/departamentos")
@@ -40,7 +38,7 @@ public class DepartamentoController {
     }
     @GetMapping("/editar/{id}")
     public String editarDepartamento(@PathVariable Long id, Model model){
-        Departamento departamento = departamentoRepository.buscarPorId(id);
+        Departamento departamento = departamentoRepository.findById(id);
         if (departamento == null){
                 throw  new IllegalArgumentException("Departamento não encontrado id: " + id);
         }
@@ -51,5 +49,18 @@ public class DepartamentoController {
     public String excluirDepartamento(@PathVariable Long id){
         departamentoRepository.remover(id);
         return "redirect:/departamentos";
+    }
+    @GetMapping("/listar")
+    public String listarDepartamentos(@RequestParam(required = false) String nome, Model model){
+        List<Departamento> departamentos;
+        if (nome != null && !nome.trim().isEmpty()){
+            departamentos =  departamentoRepository.findByNomeContainingIgnoreCase(nome);
+        }else {
+            departamentos =  departamentoRepository.findAll();
+        }
+
+        model.addAttribute("departamentos", departamentos);
+        model.addAttribute("nome", nome);
+        return "departamento/list";
     }
 }
