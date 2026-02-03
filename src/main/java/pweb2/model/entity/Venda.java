@@ -2,8 +2,7 @@ package pweb2.model.entity;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class Venda {
     private Integer numeroVenda;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDateTime dataVenda;
+    private LocalDateTime data;
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
     private List<ItemVenda> itens = new ArrayList<>();
@@ -54,12 +53,12 @@ public class Venda {
         return numeroVenda;
     }
 
-    public LocalDateTime getDataVenda() {
-        return dataVenda;
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setDataVenda(LocalDateTime dataVenda) {
-        this.dataVenda = dataVenda;
+    public void setData(LocalDateTime dataVenda) {
+        this.data = dataVenda;
     }
 
     public Double total(){

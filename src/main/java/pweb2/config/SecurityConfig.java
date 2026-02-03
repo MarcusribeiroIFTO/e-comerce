@@ -1,4 +1,4 @@
-package pweb2.controll;
+package pweb2.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -7,17 +7,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
+
 public class SecurityConfig {
 
     @Autowired
@@ -40,45 +41,36 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
                 //todo mundo tem acesso
+                                /*  ADMIN */
                         .requestMatchers(
-                                "/","/home","/login",
-                                "/forgot-password","/reset-senha",
-
-                                /*=== Cadastro de clientes ===*/
-                                "/clientes/novo","/clientes/salvar"
-                        ).permitAll()
-                        /*== Produtos*/
+                                "/produtos/novo","/produtos/editar/**","/produtos/deletar/**",
+                                "/departamentos/**","/clientes","/clientes/editar/**",
+                                "/clientes/remove/**"
+                        ).hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(
-                                        "/produtos", "/produtos/adicionar-no-carrinho",
-                                        "/produtos/carrinho", "/produtos/remover-do-carrinho/"
-                                ).permitAll()
-                        /*  ADMIN */
-                                .requestMatchers(
-                                        "/produtos/novo", "/produtos/editar/**","/produtos/deletar/",
-                                        "/departamentos/**","/departamentos"
-                                ).hasAuthority("ROLE_ADMIN")
-                        /*== VENDAS ==*/
-                                .requestMatchers(
-                                        "/vendas/finalizar","/vendas/minhas-compras"
+                                        "/vendas/finalizar",
+                                        "/vendas/minhas-compras"
                                 ).hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+
+                                /* ===== PÚBLICO ===== */
                                 .requestMatchers(
-                                        "/vendas/novo","/vendas/adicionar-item",
-                                        "/vendas/deletarItem","/vendas/salvar"
-                                ).hasAnyAuthority("ROLE_ADMIN")
-                        /*== CLIENTES (ADMINISTRADOR*/
-                                .requestMatchers(
-                                        "/clientes","/clientes/editar/**","clientes/remove/**"
-                                ).hasAnyAuthority("ROLE_ADMIN")
+                                        "/","/home","/login","/css/**",
+                                        "/js/**","/img/**","/produtos",
+                                        "/produtos/detalhes/**","/produtos/carrinho",
+                                        "/produtos/adicionar-no-carrinho/**",
+                                        "/clientes/novo","/clientes/salvar",
+                                        "/forgot-password","/reset-senha"
+                                ).permitAll()
                         /* QUALUQER UM*/
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/produtos", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AndRequestMatcher())
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")

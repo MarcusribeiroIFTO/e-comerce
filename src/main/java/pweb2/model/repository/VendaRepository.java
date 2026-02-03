@@ -86,8 +86,8 @@ public class VendaRepository {
         return em.createQuery(
                         "SELECT v FROM Venda v " +
                                 "WHERE v.cliente IN :clientes " +
-                                "AND v.dataVenda BETWEEN :dataInicial AND :dataFinal " +
-                                "ORDER BY v.dataVenda DESC",
+                                "AND v.data BETWEEN :dataInicial AND :dataFinal " +
+                                "ORDER BY v.data DESC",
                         Venda.class
                 )
                 .setParameter("clientes", clientes)
@@ -107,8 +107,8 @@ public class VendaRepository {
         return em.createQuery(
                         "SELECT v FROM Venda v " +
                                 "WHERE v.cliente = :cliente " +
-                                "AND v.dataVenda BETWEEN :dataInicial AND :dataFinal " +
-                                "ORDER BY v.dataVenda DESC",
+                                "AND v.data BETWEEN :dataInicial AND :dataFinal " +
+                                "ORDER BY v.data DESC",
                         Venda.class
                 )
                 .setParameter("cliente", cliente)
@@ -122,7 +122,7 @@ public class VendaRepository {
         if (clientes == null || clientes.isEmpty()){
             return List.of();
         }
-        String jpql = "SELECT v from Venda v where v.cliente in :clientes order by v.dataVenda DESC";
+        String jpql = "SELECT v from Venda v where v.cliente in :clientes order by v.data DESC";
         Query query = em.createQuery(jpql);
         query.setParameter("clientes", clientes);
         return query.getResultList();
@@ -130,7 +130,7 @@ public class VendaRepository {
 
     public List<Venda> buscarPorCliente(Pessoa cliente) {
         Query query = em.createQuery(
-                "select v from Venda v where v.cliente = :cliente order by v.dataVenda desc"
+                "select v from Venda v where v.cliente = :cliente order by v.data desc"
         );
         query.setParameter("cliente", cliente);
         return query.getResultList();

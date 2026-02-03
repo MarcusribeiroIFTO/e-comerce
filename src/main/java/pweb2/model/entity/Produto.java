@@ -8,17 +8,28 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "produto")
+@Table(name = "tb_produto")
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "A descrição é obrigatoria")
     private String descricao;
     @NotNull(message = "O valor deve ser preenchido")
     private BigDecimal valor;
+
+    @Column(length = 512)
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @Temporal(TemporalType.DATE)
 

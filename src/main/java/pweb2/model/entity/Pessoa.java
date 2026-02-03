@@ -12,11 +12,12 @@ import jakarta.validation.constraints.NotNull;
 
 
 @Entity
+@Table(name = "tb_pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pessoa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)

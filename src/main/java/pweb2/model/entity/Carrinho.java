@@ -14,15 +14,18 @@ public class Carrinho implements Serializable {
     public void setItens(List<ItemVenda> itens) {
         this.itens = itens;
     }
-    public void adicionarItem(ItemVenda item){
+    public void adicionarItem(ItemVenda item) {
         for (ItemVenda itemVenda : itens) {
-            if (itemVenda.getProduto().equals(itemVenda.getProduto())){
-                itemVenda.setQuantidade(itemVenda.getQuantidade() + item.getQuantidade());
+            if (itemVenda.getProduto().getId().equals(item.getProduto().getId())) {
+                itemVenda.setQuantidade(
+                        itemVenda.getQuantidade() + item.getQuantidade()
+                );
                 return;
             }
         }
         itens.add(item);
     }
+
     public void removerItem(Produto produto){
         itens.removeIf(item -> item.getProduto().equals(produto));
     }

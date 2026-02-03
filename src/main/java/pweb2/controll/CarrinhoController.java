@@ -1,41 +1,59 @@
 package pweb2.controll;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import pweb2.model.entity.Carrinho;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import pweb2.model.entity.Produto;
 import pweb2.model.repository.ProdutoRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@RestController
-@RequestMapping("/produtos")
+@Controller
+@RequestMapping("/carrinho")
 public class CarrinhoController {
-    @Autowired
-    private CarrinhoSession carrinhoSession;
 
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @PostMapping("/adicionar-no-carrinho")
-    public Map<String, Object> adicionarNoCarrinho(@RequestParam Long produtoId,
-                                                   @RequestParam int quantidade){
-        Map<String, Object> response = new HashMap<>();
+    @Autowired
+    private CarrinhoSession carrinhoSession;
 
-        Produto produto = produtoRepository.findById(produtoId);
+    // ================= VER CARRINHO =================
+    @GetMapping
+    public String verCarrinho(Model model) {
+        model.addAttribute("carrinho", carrinhoSession.getCarrinho());
+        return "carrinho/index";
+    }
 
-        if (produto == null){
-            response.put("sucess", false);
-            response.put("message", "Produto não encontrado");
-            return response;
+    // ================= ADICIONAR AO CARRINHO =================
+    @PostMapping("/adicionar/{id}")
+    public String adicionar(@PathVariable Long id) {
+
+        Produto produto = produtoRepository.findById(id);
+
+        if (produto != null) {
+            carrinhoSession.getCarrinho().adicionarProduto(produto, 1);
         }
-        Carrinho carrinho = carrinhoSession.getCarrinho();
-        response.put("sucess", true);
-        response.put("message", "Quantidade atualizada");
-        return response;
+
+        return "redirect:/produtos";
+    }
+
+    // ================= REMOVER ITEM =================
+    @GetMapping("/remover/{id}")
+    public String remover(@PathVariable Long id) {
+
+        Produto produto = produtoRepository.findById(id);
+
+        if (produto != null) {
+            carrinhoSession.getCarrinho().removerItem(produto);
+        }
+
+        return "redirect:/carrinho";
+    }
+
+    // ================= LIMPAR CARRINHO =================
+    @GetMapping("/limpar")
+    public String limpar() {
+        carrinhoSession.getCarrinho().limpar();
+        return "redirect:/carrinho";
     }
 }

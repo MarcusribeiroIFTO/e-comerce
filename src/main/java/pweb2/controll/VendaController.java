@@ -1,9 +1,6 @@
 package pweb2.controll;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,6 @@ import pweb2.model.repository.PessoaRepository;
 import pweb2.model.repository.ProdutoRepository;
 import pweb2.model.repository.VendaRepository;
 
-import java.net.Authenticator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -203,7 +199,7 @@ public class VendaController {
             return "redirect:/produtos";
         }
         Venda venda = new Venda();
-        venda.setDataVenda(LocalDateTime.now());
+        venda.setData(LocalDateTime.now());
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

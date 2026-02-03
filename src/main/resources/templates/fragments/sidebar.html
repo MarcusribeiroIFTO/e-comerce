@@ -1,50 +1,27 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
+<aside th:fragment="sidebar"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+       class="mz-sidebar">
 
-<div th:fragment="sidebar" class="sidebar">
-    <div class="sidebar-header">
-        <span class="logo">PetSul</span>
-    </div>
+    <nav class="mz-side-nav">
+        <a th:href="@{/}" class="mz-side-link">🏠 Home</a>
+        <a th:href="@{/produtos}" class="mz-side-link">📦 Produtos</a>
+        <a th:href="@{/carrinho}" class="mz-side-link">🛒 Carrinho</a>
 
-    <ul class="nav flex-column">
+        <div sec:authorize="hasRole('ADMIN')" class="mz-side-sep"></div>
 
-        <li class="nav-item">
-            <a th:href="@{/}" class="nav-link active">
-                <span class="icon">🏠</span>
-                <span class="text">Home</span>
-            </a>
-        </li>
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/produtos/novo}"
+           class="mz-side-link">➕ Novo Produto</a>
 
-        <li class="nav-item">
-            <a th:href="@{/vendas}" class="nav-link">
-                <span class="icon">🛒</span>
-                <span class="text">Vendas</span>
-            </a>
-        </li>
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/vendas}"
+           class="mz-side-link">🧾 Vendas</a>
 
-        <li class="nav-item">
-            <a th:href="@{/produtos}" class="nav-link">
-                <span class="icon">📦</span>
-                <span class="text">Produtos</span>
-            </a>
-        </li>
+        <div sec:authorize="isAuthenticated()" class="mz-side-sep"></div>
 
-        <li class="nav-item">
-            <a th:href="@{/pf}" class="nav-link">
-                <span class="icon">👥</span>
-                <span class="text">Pessoas Fisicas</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a th:href="@{/pj}" class="nav-link">
-                <span class="icon">👥</span>
-                <span class="text">Pessoas Juridicas</span>
-            </a>
-        </li>
-    </ul>
-
-</div>
-
-</body>
-</html>
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/logout}"
+           class="mz-side-link">🚪 Logout</a>
+    </nav>
+</aside>

@@ -1,36 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout/base :: layout(~{::section})">
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<section>
-    <h1>Produtos</h1>
+<head>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Produtos</title>
 
-    <a class="btn btn-primary mb-3" th:href="@{/produtos/novo}">
-        Novo Produto
-    </a>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
+<body>
+<th:block th:replace="~{fragments/header :: header}"></th:block>
+<h1 class="titulo-pagina">Produtos</h1>
 
-        <tbody>
-        <tr th:each="p : ${produtos}">
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.descricao}"></td>
-            <td th:text="${p.valor}"></td>
-            <td>
-                <a th:href="@{|/produtos/editar/${p.id}|}">Editar</a> |
-                <a th:href="@{|/produtos/deletar/${p.id}|}"
-                   onclick="return confirm('Deletar produto?')">Excluir</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</section>
+<!-- FILTRO -->
+<form th:action="@{/produtos}" method="get" class="filtro-produtos">
+
+    <select name="departamentoId">
+        <option value="">Todos os departamentos</option>
+        <option th:each="dep : ${departamentos}"
+                th:value="${dep.id}"
+                th:selected="${dep.id == departamentoId}"
+                th:text="${dep.nome}">
+        </option>
+    </select>
+
+    <button type="submit" class="btn-filtrar">Filtrar</button>
+
+    <a th:href="@{/produtos}" class="btn-limpar">Limpar</a>
+</form>
+
+<!-- GRID DE PRODUTOS -->
+<div class="produtos-grid">
+
+    <div class="produto-card" th:each="produto : ${produtos}">
+
+        <!-- IMAGEM -->
+        <div class="imagem-container">
+            <img th:if="${produto.imageUrl != null}"
+                 th:src="@{${produto.imageUrl}}"
+                 alt="Imagem do produto">
+
+            <img th:if="${produto.imageUrl == null}"
+                 th:src="@{/img/sem-imagem.png}"
+                 alt="Sem imagem">
+        </div>
+
+        <!-- DESCRIÇÃO -->
+        <h3 th:text="${produto.descricao}"></h3>
+
+        <!-- VALOR -->
+        <p class="preco">
+            R$ <span th:text="${#numbers.formatDecimal(produto.valor, 1, 2)}"></span>
+        </p>
+
+        <!-- AÇÕES -->
+        <div class="acoes-produto">
+
+            <a th:href="@{/produtos/detalhes/{id}(id=${produto.id})}"
+               class="btn-detalhes">
+                Detalhes
+            </a>
+
+            <!-- BOTÃO CARRINHO (USUÁRIO LOGADO) -->
+            <form sec:authorize="hasRole('USER')"
+                  th:action="@{/carrinho/adicionar/{id}(id=${produto.id})}"
+                  method="post">
+
+                <button type="submit" class="btn-carrinho">
+                    Adicionar
+                </button>
+            </form>
+
+            <!-- BOTÕES ADMIN -->
+            <div sec:authorize="hasRole('ADMIN')" class="admin-acoes">
+                <a th:href="@{/produtos/editar/{id}(id=${produto.id})}"
+                   class="btn-editar">Editar</a>
+
+                <a th:href="@{/produtos/deletar/{id}(id=${produto.id})}"
+                   class="btn-excluir"
+                   onclick="return confirm('Deseja excluir?')">
+                    Excluir
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
 </html>
