@@ -1,0 +1,74 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== FUNDO ===== */
+body {
+    height: 100vh;
+    background-image: url("../img/logo/logo_pets.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== OVERLAY (escurece o fundo pra destacar o login) ===== */
+.login-container {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 93, 30, 0.65); /* verde escuro com transparência */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== CARD ===== */
+.login-card {
+    background-color: #0b5d1e;
+    padding: 40px;
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* ===== TÍTULO ===== */
+.login-card h1 {
+    color: #0b5d1e;
+    margin-bottom: 25px;
+}
+
+/* ===== INPUTS ===== */
+.login-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* ===== BOTÃO ===== */
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffcc00;
+    color: #0b5d1e;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background-color: #e6b800;
+}

@@ -4,11 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pweb2.model.entity.Carrinho;
 import pweb2.model.entity.Produto;
 import pweb2.model.repository.ProdutoRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
-@RequestMapping("/carrinho")
+@RequestMapping("/produtos")
 public class CarrinhoController {
 
     @Autowired
@@ -17,43 +21,49 @@ public class CarrinhoController {
     @Autowired
     private CarrinhoSession carrinhoSession;
 
-    // ================= VER CARRINHO =================
-    @GetMapping
-    public String verCarrinho(Model model) {
-        model.addAttribute("carrinho", carrinhoSession.getCarrinho());
-        return "carrinho/index";
+    @PostMapping("/adicionar-ao-carrinho")
+    public Map<String, Object> adicionarAoCarrinho(
+            @RequestParam Long produto_id,
+            @RequestParam int quantidade){
+
+        Map<String, Object> response = new HashMap<>();
+
+        Produto produto =produtoRepository.findById(produto_id);
+
+        if (produto == null){
+            response.put("sucess", false);
+            response.put("message", "Produto não encontrado");
+            return  response;
+        }
+        Carrinho carrinho = carrinhoSession.getCarrinho();
+        carrinho.adicionarProduto(produto, quantidade);
+
+        response.put("sucess",false);
+        response.put("message", "Produto adicionado ao carrinho");
+        return response;
     }
 
-    // ================= ADICIONAR AO CARRINHO =================
-    @PostMapping("/adicionar/{id}")
-    public String adicionar(@PathVariable Long id) {
+    @PostMapping("/atualizarCarrinho")
+    public Map<String, Object> atualizarCarrinho(
+            @RequestParam Long produtoId,
+            @RequestParam int quantidade) {
 
-        Produto produto = produtoRepository.findById(id);
+        Map<String, Object> response = new HashMap<>();
 
-        if (produto != null) {
-            carrinhoSession.getCarrinho().adicionarProduto(produto, 1);
+        Produto produto = produtoRepository.findById(produtoId);
+
+        if (produto == null) {
+            response.put("success", false);
+            response.put("message", "Produto não encontrado");
+            return response;
         }
 
-        return "redirect:/produtos";
+        carrinhoSession.getCarrinho().atualizarItem(produto, quantidade);
+        response.put("success", true);
+        response.put("message", "Quantidade atualizada!");
+        return response;
+
     }
 
-    // ================= REMOVER ITEM =================
-    @GetMapping("/remover/{id}")
-    public String remover(@PathVariable Long id) {
 
-        Produto produto = produtoRepository.findById(id);
-
-        if (produto != null) {
-            carrinhoSession.getCarrinho().removerItem(produto);
-        }
-
-        return "redirect:/carrinho";
-    }
-
-    // ================= LIMPAR CARRINHO =================
-    @GetMapping("/limpar")
-    public String limpar() {
-        carrinhoSession.getCarrinho().limpar();
-        return "redirect:/carrinho";
-    }
 }

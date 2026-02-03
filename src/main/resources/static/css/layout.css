@@ -1,0 +1,169 @@
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+.search-input {
+    width: 520px;
+    max-width: 100%;
+    height: 44px;
+    font-size: 1.1rem;
+}
+
+.btn-search {
+    height: 44px;
+    background: var(--amarelo);
+    border: none;
+    font-weight: bold;
+}
+
+.header-link {
+    font-size: 1.15rem;  /* login maior */
+    font-weight: 700;
+    color: var(--branco);
+    text-decoration: none;
+}
+
+.header-link:hover {
+    text-decoration: underline;
+}
+
+.btn-carrinho {
+    background: var(--amarelo);
+    color: var(--verde-escuro);
+    font-weight: bold;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+:root {
+    --verde-escuro: #0b5d1e;
+    --amarelo: #ffc107;
+    --amarelo-hover: #e0a800;
+    --branco: #ffffff;
+}
+
+
+.mz-header {
+    width: 100%;
+    height: 70px;
+    background: var(--verde-escuro);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+
+    /* isso impede quebrar linha (login cair pra baixo) */
+    flex-wrap: nowrap;
+}
+
+/* LOGO */
+.mz-brand {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    text-decoration: none;
+    flex: 0 0 auto;
+}
+
+.mz-logo {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.mz-title {
+    color: var(--amarelo);
+    font-weight: 800;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+/* BUSCA central grande */
+.mz-search {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    max-width: 700px;
+}
+
+.mz-search-input {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    border: none;
+    outline: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+}
+
+.mz-search-btn {
+    height: 42px;
+    width: 54px;
+    border: none;
+    cursor: pointer;
+    background: var(--amarelo);
+    border-radius: 0 8px 8px 0;
+    font-weight: 800;
+}
+
+.mz-search-btn:hover {
+    background: var(--amarelo-hover);
+}
+
+/* DIREITA */
+.mz-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.mz-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mz-link {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;   /* aumenta fonte do login */
+}
+
+.mz-link:hover {
+    text-decoration: underline;
+}
+
+.mz-hello {
+    color: #e9f5ec;
+    font-weight: 600;
+}
+
+/* CARRINHO */
+.mz-cart {
+    background: var(--amarelo);
+    color: var(--verde-escuro);
+    text-decoration: none;
+    font-weight: 800;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mz-cart:hover {
+    background: var(--amarelo-hover);
+}
+
+.mz-badge {
+    background: #00000020;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 900;
+}
